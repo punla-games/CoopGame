@@ -13,7 +13,7 @@ public class Player:MonoBehaviour
     public BaseInteractable active = null;
     public float interactTime = 0f;
 
-    public string item = "empty";
+    public Item item = null;
 
     public void Awake()
     {
@@ -117,9 +117,9 @@ public class Player:MonoBehaviour
     {
         bool drop = Keyboard.current.gKey.isPressed;
 
-        if(item!="empty"&&drop)
+        if(item!=null&&drop)
         {
-            item="empty";
+            item=null;
         }
     }
 }

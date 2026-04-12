@@ -40,6 +40,10 @@ public class PlayerHUD:MonoBehaviour
         }
 
         // item.
-        _itemLabel.text=_player.item;
+        _itemLabel.text="";
+        if(_player.item!=null)
+        {
+            _itemLabel.text=_player.item?.Def.Title;
+        }
     }
 }

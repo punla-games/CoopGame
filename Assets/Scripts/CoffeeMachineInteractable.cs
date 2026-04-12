@@ -2,7 +2,7 @@ public class CoffeeMachineInteractable:BaseInteractable
 {
     public override bool CanInteract(Player player)
     {
-        return player.item=="cup";
+        return player.item?.Def.Id=="cup";
     }
 
     public override float GetInteractDuration(Player player)
@@ -12,9 +12,9 @@ public class CoffeeMachineInteractable:BaseInteractable
 
     public override string GetInteractText(Player player)
     {
-        if(player.item=="cup of coffee")
+        if(player.item?.Def.Id=="coffee")
             return "You already have a cup of coffee.";
-        else if(player.item!="cup")
+        else if(player.item?.Def.Id!="cup")
             return "You need a cup to make coffee.";
         else
             return $"Press \"F\" to make coffee.";
@@ -22,6 +22,6 @@ public class CoffeeMachineInteractable:BaseInteractable
 
     public override void OnInteract(Player player)
     {
-        player.item="cup of coffee";
+        player.item=ItemDatabase.Create("coffee");
     }
 }

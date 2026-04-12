@@ -24,7 +24,7 @@ public class CupStackInteractable:BaseInteractable
         if(amount==0)
             return "No cups remaining.";
 
-        if(player.item=="cup")
+        if(player.item?.Def.Id=="cup")
             return "I already have a cup.";
 
         return $"Press \"F\" to take a cup. ({amount}/{limit})";
@@ -32,8 +32,8 @@ public class CupStackInteractable:BaseInteractable
 
     public override void OnInteract(Player player)
     {
-        player.item="cup";
-
         amount--;
+
+        player.item=ItemDatabase.Create("cup");
     }
 }
