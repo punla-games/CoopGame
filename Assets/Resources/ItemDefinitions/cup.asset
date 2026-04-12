@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbb8bc3fe9ccd014c8b587de0bf60cc0, type: 3}
+  m_Script: {fileID: 11500000, guid: 39eb4060966b83d4fbe3d7893b7a948e, type: 3}
   m_Name: cup
-  m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  Id: 
-  Title: 
-  Description: 
+  m_EditorClassIdentifier: Assembly-CSharp::CupItemDefinition

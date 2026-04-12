@@ -7,7 +7,7 @@ public class ItemDefinition:ScriptableObject
     public string Id => name;
     public string Title => name.ToTitleCase();
 
-    public Item CreateInstance()
+    public virtual Item CreateInstance()
     {
         return new Item(this);
     }

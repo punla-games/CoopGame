@@ -24,7 +24,7 @@ public class CupStackInteractable:BaseInteractable
         if(amount==0)
             return "No cups remaining.";
 
-        if(player.item?.Def.Id=="cup")
+        if(player.item?.Id=="cup")
             return "I already have a cup.";
 
         return $"Press \"F\" to take a cup. ({amount}/{limit})";

@@ -1,24 +1,12 @@
 public class Item
 {
-    public ItemDefinition Def { get; }
+    private ItemDefinition definition { get; }
 
     public Item(ItemDefinition definition)
     {
-        Def=definition;
+        this.definition=definition;
     }
-}
 
-public class ItemStack
-{
-    public Item item;
-    public int amount;
-}
-
-public class DrinkItem:Item
-{
-    public ItemStack
-
-    public DrinkItem(ItemDefinition definition) : base(definition)
-    {
-    }
+    public string Id => definition.Id;
+    public virtual string Title => definition.Title;
 }
