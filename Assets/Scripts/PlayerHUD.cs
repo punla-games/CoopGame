@@ -16,7 +16,7 @@ public class PlayerHUD:MonoBehaviour
     public void Update()
     {
         // money.
-        _moneyLabel.text=$"money: {GameManager.Get.money/100f:0.00}";
+        _moneyLabel.text=$"money: ${GameManager.Get.money/100f:0.00}";
 
         // hovered interactable.
         _interactLabel.text="";
