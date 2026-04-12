@@ -7,3 +7,18 @@ public class Item
         Def=definition;
     }
 }
+
+public class ItemStack
+{
+    public Item item;
+    public int amount;
+}
+
+public class DrinkItem:Item
+{
+    public ItemStack
+
+    public DrinkItem(ItemDefinition definition) : base(definition)
+    {
+    }
+}
