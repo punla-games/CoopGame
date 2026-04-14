@@ -41,9 +41,9 @@ public class PlayerHUD:MonoBehaviour
 
         // item.
         _itemLabel.text="";
-        if(_player.item!=null)
+        if(_player.HeldItem!=null)
         {
-            _itemLabel.text=_player.item?.Title;
+            _itemLabel.text=_player.HeldItem?.Title;
         }
     }
 }

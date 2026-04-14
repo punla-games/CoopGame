@@ -5,7 +5,8 @@ public class Player:MonoBehaviour
 {
     public Camera _camera;
 
-    [System.NonSerialized] public CharacterController _controller;
+    [System.NonSerialized]
+    public CharacterController _controller;
 
     private float pitch = 0f;
 
@@ -13,7 +14,13 @@ public class Player:MonoBehaviour
     public BaseInteractable active = null;
     public float interactTime = 0f;
 
-    public Item item = null;
+    // items.
+    public Item HeldItem { get; private set; }
+
+    [SerializeField]
+    private Transform _heldItemViewHolder;
+
+    private GameObject heldItemView;
 
     public void Awake()
     {
@@ -117,9 +124,23 @@ public class Player:MonoBehaviour
     {
         bool drop = Keyboard.current.gKey.isPressed;
 
-        if(item!=null&&drop)
+        if(HeldItem!=null&&drop)
         {
-            item=null;
+            HeldItem=null;
         }
+    }
+
+    public void HoldItem(Item item)
+    {
+        if(item!=null)
+            DropItem();
+
+        HeldItem=item;
+        heldItemView=Instantiate(item.HeldView,_heldItemViewHolder);
+    }
+    public void DropItem()
+    {
+        HeldItem=null;
+        Destroy(heldItemView);
     }
 }
