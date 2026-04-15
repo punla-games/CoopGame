@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class CoffeeMachineInteractable:BaseInteractable
 {
     public override float GetInteractDuration(Player player)
