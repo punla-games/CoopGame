@@ -20,7 +20,8 @@ public class Customer:Interactable
     }
 
     public State state = State.ENTERING;
-    public Vector3 enterPos = Vector3.zero;
+    public int queueIndex = -1;
+    public Vector3 queuePos = Vector3.zero;
     public string order = "";
     public Vector3 seatPos = Vector3.zero;
     public Vector3 leavePos = Vector3.zero;
@@ -33,7 +34,7 @@ public class Customer:Interactable
         // state machine.
         if(state==State.ENTERING)
         {
-            agent.destination=enterPos;
+            agent.destination=queuePos;
             if(HasReachedDestination())
             {
                 state=State.ORDERING;
@@ -85,7 +86,7 @@ public class Customer:Interactable
     public override bool CanInteract(Player player)
     {
         //return state==State.WAITING && player.HeldItem is CupItem;
-        return state==State.ORDERING||state==State.WAITING;
+        return (state==State.ORDERING&&queueIndex==0)||state==State.WAITING;
     }
     public override string GetInteractText(Player player)
     {
@@ -117,6 +118,7 @@ public class Customer:Interactable
                 player.GainMoney(750);
                 player.DropItem();
                 state=State.LEAVING;
+                CustomerQueueManager.Get.Unregister(this);
             }
             else
             {
@@ -131,7 +133,8 @@ public class Customer:Interactable
     {
         if(state==State.ORDERING)
         {
-            state=State.SEATING;
+            //state=State.SEATING;
+            state=State.WAITING;
         }
     }
 
