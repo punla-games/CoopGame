@@ -35,7 +35,7 @@ public class Customer:Interactable
         if(state==State.ENTERING)
         {
             agent.destination=queuePos;
-            if(HasReachedDestination())
+            if(HasReachedDestination()&&queueIndex==0)
             {
                 state=State.ORDERING;
                 order=ORDER_OPTIONS[Random.Range(0,ORDER_OPTIONS.Length-1)];
