@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHUD:MonoBehaviour
+public class PlayerHUD:SingletonBehaviour<PlayerHUD>
 {
     public Player _player;
 
@@ -12,6 +12,11 @@ public class PlayerHUD:MonoBehaviour
     public Image _interactProgressImage;
 
     public TMP_Text _itemLabel;
+
+    public float tipEarnedTimer = 0f;
+    public float tipEarnedDuration = 2f;
+    public AnimationCurve tipEarnedCurve;
+    public Transform _tipEarnedContainer;
 
     public void Update()
     {
@@ -45,5 +50,16 @@ public class PlayerHUD:MonoBehaviour
         {
             _itemLabel.text=_player.HeldItem?.Title;
         }
+
+        // tip earned display.
+        tipEarnedTimer=Mathf.Max(tipEarnedTimer-Time.deltaTime/tipEarnedDuration,0f);
+        float t = Mathf.Clamp01(1f-tipEarnedTimer);
+        float scale = tipEarnedCurve.Evaluate(t);
+        _tipEarnedContainer.localScale=Vector3.one*scale;
+    }
+
+    public void ShowTipEarned()
+    {
+        tipEarnedTimer=1f;
     }
 }
