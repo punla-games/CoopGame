@@ -1,4 +1,4 @@
-public class SignInteractable:BaseInteractable
+public class SignInteractable:Interactable
 {
     public string message = "";
 

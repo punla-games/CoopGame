@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TableInteractable:BaseInteractable
+public class TableInteractable:Interactable
 {
     public bool IsDirty { get; private set; }
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CoffeeMachine:BaseInteractable
+public class CoffeeMachine:Interactable
 {
     public CupItem cup = null;
 

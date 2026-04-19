@@ -1,4 +1,4 @@
-public class CupStack:BaseInteractable
+public class CupStack:Interactable
 {
     public override string GetInteractText(Player player)
     {

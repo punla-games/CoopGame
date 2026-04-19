@@ -1,4 +1,4 @@
-public class CocoaPowderInteractable:BaseInteractable
+public class CocoaPowderInteractable:Interactable
 {
     public override bool CanInteract(Player player)
     {

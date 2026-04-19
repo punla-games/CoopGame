@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BaseInteractable:MonoBehaviour
+public abstract class Interactable:MonoBehaviour
 {
     public virtual bool CanInteract(Player player)
     {

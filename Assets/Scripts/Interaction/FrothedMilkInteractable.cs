@@ -1,4 +1,4 @@
-public class FrothedMilkInteractable:BaseInteractable
+public class FrothedMilkInteractable:Interactable
 {
     public override bool CanInteract(Player player)
     {

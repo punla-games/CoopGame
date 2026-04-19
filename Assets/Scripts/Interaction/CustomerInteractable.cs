@@ -1,4 +1,4 @@
-public class CustomerInteractable:BaseInteractable
+public class CustomerInteractable:Interactable
 {
     public override float GetInteractDuration(Player player)
     {

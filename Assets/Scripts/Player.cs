@@ -1,8 +1,10 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player:MonoBehaviour
 {
+    public Transform _cameraRig;
     public Camera _camera;
 
     [System.NonSerialized]
@@ -18,8 +20,8 @@ public class Player:MonoBehaviour
     private const float JUMP_HEIGHT = 1.1f;
 
     // interaction.
-    public BaseInteractable hovered = null;
-    public BaseInteractable active = null;
+    public Interactable hovered = null;
+    public Interactable active = null;
     public float interactTime = 0f;
 
     // items.
@@ -53,6 +55,18 @@ public class Player:MonoBehaviour
             fallSpeed=Mathf.Sqrt(-2f*GRAVITY*JUMP_HEIGHT);
         }
 
+        // crouching.
+        float targetHeight = 1.7f;
+        
+        bool crouchInput = Keyboard.current.ctrlKey.isPressed;
+        if(crouchInput)
+            targetHeight=0.85f;
+
+        _controller.height=Mathf.Lerp(_controller.height,targetHeight,10f*Time.deltaTime);
+        _controller.center=Vector3.up*_controller.height/2f;
+
+        _cameraRig.localPosition=Vector3.up*_controller.height;
+
         Look();
         Move();
         Interact();
@@ -81,17 +95,24 @@ public class Player:MonoBehaviour
     }
     private void Move()
     {
-        float forward = Keyboard.current.wKey.isPressed.ToInt()-Keyboard.current.sKey.isPressed.ToInt();
-        float strafe = Keyboard.current.dKey.isPressed.ToInt()-Keyboard.current.aKey.isPressed.ToInt();
-        bool run = Keyboard.current.leftShiftKey.isPressed;
+        float forwardInput = Keyboard.current.wKey.isPressed.ToInt()-Keyboard.current.sKey.isPressed.ToInt();
+        float strafeInput = Keyboard.current.dKey.isPressed.ToInt()-Keyboard.current.aKey.isPressed.ToInt();
+        bool sprintInput = Keyboard.current.leftShiftKey.isPressed;
+
+        float targetFOV = 60f;
 
         float walkSpeed = 4f;
         float runSpeed = 6f;
         float moveSpeed = walkSpeed;
-        if(run)
+        if(sprintInput)
+        {
             moveSpeed=runSpeed;
+            targetFOV=70f;
+        }
 
-        var moveDir = Quaternion.Euler(0f,transform.eulerAngles.y,0f)*Vector3.ClampMagnitude(new Vector3(strafe,0f,forward),1f);
+        _camera.fieldOfView=Mathf.Lerp(_camera.fieldOfView,targetFOV,10f*Time.deltaTime);
+
+        var moveDir = Quaternion.Euler(0f,transform.eulerAngles.y,0f)*Vector3.ClampMagnitude(new Vector3(strafeInput,0f,forwardInput),1f);
 
         var deltaPos = moveDir*moveSpeed*Time.deltaTime;
         _controller.Move(deltaPos);
@@ -102,13 +123,13 @@ public class Player:MonoBehaviour
         float range = 3f;
 
         // update the hovered.
-        BaseInteractable focus=null;
+        Interactable focus=null;
         float distance = float.MaxValue;
 
         var hits = Physics.RaycastAll(_camera.transform.position,_camera.transform.forward,range);
         foreach(var hit in hits)
         {
-            if(hit.collider.TryGetComponent<BaseInteractable>(out var interactable))
+            if(hit.collider.TryGetComponent<Interactable>(out var interactable))
             {
                 if(focus==null||hit.distance<distance)
                 {

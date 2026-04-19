@@ -1,4 +1,4 @@
-public class WaterInteractable:BaseInteractable
+public class WaterInteractable:Interactable
 {
     public override bool CanInteract(Player player)
     {

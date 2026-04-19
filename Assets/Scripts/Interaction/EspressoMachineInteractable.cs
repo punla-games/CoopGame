@@ -1,4 +1,4 @@
-public class EspressoMachineInteractable:BaseInteractable
+public class EspressoMachineInteractable:Interactable
 {
     public override bool CanInteract(Player player)
     {
