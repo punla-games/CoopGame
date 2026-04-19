@@ -243,6 +243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   _camera: {fileID: 330585545}
+  fallSpeed: 0
   hovered: {fileID: 0}
   active: {fileID: 0}
   interactTime: 0
@@ -686,7 +687,6 @@ GameObject:
   - component: {fileID: 437105018}
   - component: {fileID: 437105017}
   - component: {fileID: 437105016}
-  - component: {fileID: 437105015}
   m_Layer: 0
   m_Name: Cup
   m_TagString: Untagged
@@ -694,28 +694,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &437105015
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 437105014}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -9001789469420115890, guid: ac95e458fcfe21f4a919fc173d62c9ee, type: 3}
 --- !u!23 &437105016
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -975,6 +953,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 612955292}
+  - component: {fileID: 612955293}
+  - component: {fileID: 612955294}
   m_Layer: 0
   m_Name: CupStack
   m_TagString: Untagged
@@ -1002,6 +982,39 @@ Transform:
   - {fileID: 924514127}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &612955293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612955291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41852f1b8e49bf740922eb708ec8e5c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CupStack
+--- !u!65 &612955294
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612955291}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.2049346, y: 0.3959279, z: 0.20937586}
+  m_Center: {x: 0.002220869, y: 0.19543517, z: 0.0044419765}
 --- !u!1 &618449484
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,7 +1026,6 @@ GameObject:
   - component: {fileID: 618449488}
   - component: {fileID: 618449487}
   - component: {fileID: 618449486}
-  - component: {fileID: 618449485}
   m_Layer: 0
   m_Name: Cup
   m_TagString: Untagged
@@ -1021,28 +1033,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &618449485
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 618449484}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -9001789469420115890, guid: ac95e458fcfe21f4a919fc173d62c9ee, type: 3}
 --- !u!23 &618449486
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1514,7 +1504,6 @@ GameObject:
   - component: {fileID: 924514127}
   - component: {fileID: 924514126}
   - component: {fileID: 924514125}
-  - component: {fileID: 924514124}
   m_Layer: 0
   m_Name: Cup
   m_TagString: Untagged
@@ -1522,28 +1511,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &924514124
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 924514123}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -9001789469420115890, guid: ac95e458fcfe21f4a919fc173d62c9ee, type: 3}
 --- !u!23 &924514125
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1627,7 +1594,6 @@ GameObject:
   - component: {fileID: 1104226494}
   - component: {fileID: 1104226493}
   - component: {fileID: 1104226492}
-  - component: {fileID: 1104226491}
   m_Layer: 0
   m_Name: Cup
   m_TagString: Untagged
@@ -1635,28 +1601,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &1104226491
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1104226490}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -9001789469420115890, guid: ac95e458fcfe21f4a919fc173d62c9ee, type: 3}
 --- !u!23 &1104226492
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1786,7 +1730,7 @@ GameObject:
   - component: {fileID: 1171713961}
   - component: {fileID: 1171713960}
   m_Layer: 0
-  m_Name: CupPlacement
+  m_Name: CupView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2070,7 +2014,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7809332450680829852, guid: 4c97aefe9113a224f9e122e0b4d2aa40, type: 3}
       propertyPath: m_Name
-      value: TableSmall (1)
+      value: TableSmall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2211,12 +2155,12 @@ GameObject:
   - component: {fileID: 1565275181}
   - component: {fileID: 1565275180}
   m_Layer: 0
-  m_Name: CupPlacement
+  m_Name: CupView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1565275179
 Transform:
   m_ObjectHideFlags: 0
@@ -2339,7 +2283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7809332450680829852, guid: 4c97aefe9113a224f9e122e0b4d2aa40, type: 3}
       propertyPath: m_Name
-      value: TableSmall (2)
+      value: TableSmall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3777,7 +3721,6 @@ GameObject:
   - component: {fileID: 3715310878971579386}
   - component: {fileID: 297435599524185183}
   - component: {fileID: 2577258914804478101}
-  - component: {fileID: 7159383579357662782}
   m_Layer: 0
   m_Name: Cup
   m_TagString: Untagged
@@ -4001,7 +3944,7 @@ GameObject:
   - component: {fileID: 7261459053319893645}
   - component: {fileID: 4837171392006702663}
   m_Layer: 0
-  m_Name: CupPlacement
+  m_Name: CupView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4106,28 +4049,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &7159383579357662782
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4090604521985577280}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -9001789469420115890, guid: ac95e458fcfe21f4a919fc173d62c9ee, type: 3}
 --- !u!1 &7248225253509829405
 GameObject:
   m_ObjectHideFlags: 0
@@ -4351,6 +4272,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d033247961eea541a0a4191a30f1757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoffeeMachineInteractable
+  hasCup: 0
+  cupView: {fileID: 1565275178}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

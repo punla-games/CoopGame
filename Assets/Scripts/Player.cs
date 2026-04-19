@@ -15,7 +15,7 @@ public class Player:MonoBehaviour
     public float fallSpeed = 0f;
 
     // jumping.
-    private const float JUMP_HEIGHT = 1.5f;
+    private const float JUMP_HEIGHT = 1.1f;
 
     // interaction.
     public BaseInteractable hovered = null;
@@ -148,11 +148,11 @@ public class Player:MonoBehaviour
     }
     private void Item()
     {
-        bool drop = Keyboard.current.gKey.isPressed;
+        bool dropInput = Keyboard.current.gKey.isPressed;
 
-        if(HeldItem!=null&&drop)
+        if(HeldItem!=null&&dropInput)
         {
-            HeldItem=null;
+            DropItem();
         }
     }
 
@@ -167,6 +167,9 @@ public class Player:MonoBehaviour
     public void DropItem()
     {
         HeldItem=null;
-        Destroy(heldItemView);
+        if(heldItemView!=null)
+        {
+            Destroy(heldItemView);
+        }
     }
 }
