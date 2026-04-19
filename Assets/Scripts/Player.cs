@@ -10,6 +10,14 @@ public class Player:MonoBehaviour
 
     private float pitch = 0f;
 
+    // physics.
+    private const float GRAVITY = -19.6f;
+    public float fallSpeed = 0f;
+
+    // jumping.
+    private const float JUMP_HEIGHT = 1.5f;
+
+    // interaction.
     public BaseInteractable hovered = null;
     public BaseInteractable active = null;
     public float interactTime = 0f;
@@ -34,10 +42,28 @@ public class Player:MonoBehaviour
     }
     public void Update()
     {
+        // falling.
+        fallSpeed+=GRAVITY*Time.deltaTime;
+        _controller.Move(Vector3.up*fallSpeed*Time.deltaTime);
+
+        // jumping.
+        bool jumpInput = Keyboard.current.spaceKey.wasPressedThisFrame;
+        if(fallSpeed<=0f&&jumpInput)
+        {
+            fallSpeed=Mathf.Sqrt(-2f*GRAVITY*JUMP_HEIGHT);
+        }
+
         Look();
         Move();
         Interact();
         Item();
+    }
+    public void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if(hit.normal.y>0.7f&&fallSpeed<=0f)
+        {
+            fallSpeed=-2f;
+        }
     }
 
     private void Look()
