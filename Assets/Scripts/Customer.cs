@@ -1,26 +1,52 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 
 public class Customer:Interactable
 {
-    public NavMeshAgent agent;
+    public static string[] ORDER_OPTIONS = new string[] { "calabeeno","latte","mochaccino","cappuccino","macchiato" };
 
+    public TMP_Text stateLabel;
+
+    public NavMeshAgent agent;
     public enum State
     {
         ENTERING,
+        ORDERING,
+        SEATING,
         WAITING,
         LEAVING,
     }
 
     public State state = State.ENTERING;
     public Vector3 enterPos = Vector3.zero;
+    public string order = "";
+    public Vector3 seatPos = Vector3.zero;
     public Vector3 leavePos = Vector3.zero;
+
+    public bool started = false;
+    public Player interactor = null;
 
     public void Update()
     {
+        // state machine.
         if(state==State.ENTERING)
         {
             agent.destination=enterPos;
+            if(HasReachedDestination())
+            {
+                state=State.ORDERING;
+                order=ORDER_OPTIONS[Random.Range(0,ORDER_OPTIONS.Length-1)];
+            }
+        }
+        else if(state==State.ORDERING)
+        {
+            // waiting for dialog.
+        }
+        else if(state==State.SEATING)
+        {
+            agent.destination=seatPos;
             if(HasReachedDestination())
             {
                 state=State.WAITING;
@@ -28,7 +54,7 @@ public class Customer:Interactable
         }
         else if(state==State.WAITING)
         {
-            // waiting for coffee.
+            // waiting for delivery
         }
         else if(state==State.LEAVING)
         {
@@ -38,51 +64,74 @@ public class Customer:Interactable
                 Destroy(gameObject);
             }
         }
+
+        // interacting.
+        bool anyInput = Keyboard.current.fKey.wasPressedThisFrame&&!started;
+        if(interactor!=null&&anyInput)
+        {
+            PlayerHUD.Get.HideDialog();
+            interactor.StopInteraction();
+            interactor=null;
+        }
+
+        if(started)
+            started=false;
+    }
+    public void LateUpdate()
+    {
+        stateLabel.text=state.ToString();
     }
 
     public override bool CanInteract(Player player)
     {
-        return state==State.WAITING && player.HeldItem is CupItem;
-    }
-    public override float GetInteractDuration(Player player)
-    {
-        return 0.5f;
+        //return state==State.WAITING && player.HeldItem is CupItem;
+        return state==State.ORDERING||state==State.WAITING;
     }
     public override string GetInteractText(Player player)
     {
-        if(player.HeldItem is CupItem)
-            return $"Deliver coffee.";
+        if(state==State.ORDERING)
+            return $"Talk.";
 
-        return $"\"One cup of coffee please!\"";
+        if(state==State.WAITING&&player.HeldItem is CupItem)
+            return $"Deliver.";
+
+        return "";
     }
     public override void OnInteract(Player player)
     {
-        if(player.HeldItem is CupItem)
+        // dialog.
+        if(player.HeldItem is not CupItem)
+        {
+            interactor=player;
+            player.state=Player.State.INTERACT;
+            PlayerHUD.Get.ShowDialog($"Customer: One {order} please.");
+            started=true;
+        }
+        // delivery.
+        else if(player.HeldItem is CupItem)
         {
             var cup = player.HeldItem as CupItem;
 
-            // recipes.
-            if(cup.espresso==2&&cup.water==3&&cup.oatMilk==0&&cup.cocoaPowder==0&&cup.frothedMilk==0)
-                GameManager.Get.money+=750;
-            if(cup.espresso==2&&cup.water==0&&cup.oatMilk==3&&cup.cocoaPowder==0&&cup.frothedMilk==0)
-                GameManager.Get.money+=750;
-            if(cup.espresso==2&&cup.water==0&&cup.oatMilk==0&&cup.cocoaPowder==2&&cup.frothedMilk==1)
-                GameManager.Get.money+=750;
-            if(cup.espresso==1&&cup.water==0&&cup.oatMilk==2&&cup.cocoaPowder==0&&cup.frothedMilk==2)
-                GameManager.Get.money+=750;
-            if(cup.espresso==3&&cup.water==0&&cup.oatMilk==0&&cup.cocoaPowder==0&&cup.frothedMilk==2)
-                GameManager.Get.money+=750;
-
-            // fallback.
-            if(cup.espresso>0||cup.water>0||cup.oatMilk>0||cup.cocoaPowder>0||cup.frothedMilk>0)
-                GameManager.Get.money+=50;
-
-            // consume.
-            player.DropItem();
-
-            // state.
-            state=State.LEAVING;
-            return;
+            if(cup.Title==order)
+            {
+                player.GainMoney(750);
+                player.DropItem();
+                state=State.LEAVING;
+            }
+            else
+            {
+                interactor=player;
+                player.state=Player.State.INTERACT;
+                PlayerHUD.Get.ShowDialog($"Customer: I didn't order that.");
+                started=true;
+            }
+        }
+    }
+    public override void OnEndInteract(Player player)
+    {
+        if(state==State.ORDERING)
+        {
+            state=State.SEATING;
         }
     }
 

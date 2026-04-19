@@ -48,10 +48,8 @@ public class CoffeeMachine:Interactable
 
         if(cup!=null&&player.HeldItem==null)
         {
-            var cupItem = ItemDatabase.Create("cup") as CupItem;
-            //cupItem.espresso=2;
-            //cupItem.water=3;
-            player.HoldItem(cupItem);
+            cup.espresso++;
+            player.HoldItem(cup);
             cup=null;
             return;
         }

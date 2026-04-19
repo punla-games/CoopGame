@@ -69,7 +69,6 @@ public class TableInteractable:Interactable
     {
         if(IsDirty)
         {
-            PlayerHUD.Get.ShowTipEarned();
             ResetDirty();
             timer=Random.value*10f;
         }

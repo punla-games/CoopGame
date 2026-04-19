@@ -1,9 +1,16 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player:MonoBehaviour
 {
+    public enum State
+    {
+        FREE,
+        INTERACT,
+    }
+
+    public State state = State.FREE;
+
     public Transform _cameraRig;
     public Camera _camera;
 
@@ -44,33 +51,41 @@ public class Player:MonoBehaviour
     }
     public void Update()
     {
-        // falling.
+        // physics.
         fallSpeed+=GRAVITY*Time.deltaTime;
         _controller.Move(Vector3.up*fallSpeed*Time.deltaTime);
 
-        // jumping.
-        bool jumpInput = Keyboard.current.spaceKey.wasPressedThisFrame;
-        if(fallSpeed<=0f&&jumpInput)
+        // state machine.
+        if(state==State.FREE)
         {
-            fallSpeed=Mathf.Sqrt(-2f*GRAVITY*JUMP_HEIGHT);
+            // jumping.
+            bool jumpInput = Keyboard.current.spaceKey.wasPressedThisFrame;
+            if(fallSpeed<=0f&&jumpInput)
+            {
+                fallSpeed=Mathf.Sqrt(-2f*GRAVITY*JUMP_HEIGHT);
+            }
+
+            // crouching.
+            float targetHeight = 1.7f;
+
+            bool crouchInput = Keyboard.current.ctrlKey.isPressed;
+            if(crouchInput)
+                targetHeight=0.85f;
+
+            _controller.height=Mathf.Lerp(_controller.height,targetHeight,10f*Time.deltaTime);
+            _controller.center=Vector3.up*_controller.height/2f;
+
+            _cameraRig.localPosition=Vector3.up*_controller.height;
+
+            Look();
+            Move();
+            Interact();
+            Item();
         }
-
-        // crouching.
-        float targetHeight = 1.7f;
-        
-        bool crouchInput = Keyboard.current.ctrlKey.isPressed;
-        if(crouchInput)
-            targetHeight=0.85f;
-
-        _controller.height=Mathf.Lerp(_controller.height,targetHeight,10f*Time.deltaTime);
-        _controller.center=Vector3.up*_controller.height/2f;
-
-        _cameraRig.localPosition=Vector3.up*_controller.height;
-
-        Look();
-        Move();
-        Interact();
-        Item();
+        else if(state==State.INTERACT)
+        {
+            // do nothing.
+        }
     }
     public void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -119,7 +134,6 @@ public class Player:MonoBehaviour
     }
     private void Interact()
     {
-        var interactControl = Keyboard.current.fKey;
         float range = 3f;
 
         // update the hovered.
@@ -142,14 +156,14 @@ public class Player:MonoBehaviour
         hovered=focus;
 
         // begin interaction.
-        if(interactControl.wasPressedThisFrame&&active==null&&hovered!=null&&hovered.CanInteract(this))
+        if(Keyboard.current.fKey.wasPressedThisFrame&&active==null&&hovered!=null&&hovered.CanInteract(this))
         {
             active=hovered;
             active.OnBeginInteract(this);
         }
 
         // update interaction.
-        if(interactControl.isPressed&&hovered==active&&active!=null&&active.CanInteract(this))
+        if(Keyboard.current.fKey.isPressed&&hovered==active&&active!=null&&active.CanInteract(this))
         {
             interactTime+=Time.deltaTime;
             if(interactTime>=active.GetInteractDuration(this))
@@ -159,12 +173,15 @@ public class Player:MonoBehaviour
         }
 
         // end interaction.
-        bool endInteract = active!=null&&(hovered!=active||!active.CanInteract(this)||!interactControl.isPressed||interactTime>=active.GetInteractDuration(this));
-        if(endInteract)
+        if(state==State.FREE)
         {
-            active.OnEndInteract(this);
-            active=null;
-            interactTime=0f;
+            bool endInteract = active!=null&&(hovered!=active||!active.CanInteract(this)||!Keyboard.current.fKey.isPressed||interactTime>=active.GetInteractDuration(this));
+            if(endInteract)
+            {
+                active.OnEndInteract(this);
+                active=null;
+                interactTime=0f;
+            }
         }
     }
     private void Item()
@@ -192,5 +209,19 @@ public class Player:MonoBehaviour
         {
             Destroy(heldItemView);
         }
+    }
+
+    public void GainMoney(int amount)
+    {
+        GameManager.Get.money+=amount;
+        PlayerHUD.Get.ShowTipEarned();
+    }
+
+    public void StopInteraction()
+    {
+        active.OnEndInteract(this);
+        active=null;
+        interactTime=0f;
+        state=State.FREE;
     }
 }

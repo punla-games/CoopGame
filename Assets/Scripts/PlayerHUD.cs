@@ -18,15 +18,19 @@ public class PlayerHUD:SingletonBehaviour<PlayerHUD>
     public AnimationCurve tipEarnedCurve;
     public Transform _tipEarnedContainer;
 
+    public GameObject dialogContainer;
+    public TMP_Text dialogLabel;
+
     public void Update()
     {
+        
         // money.
         _moneyLabel.text=$"money: ${GameManager.Get.money/100f:0.00}";
 
         // hovered interactable.
         _interactLabel.text="";
 
-        if(_player.hovered!=null)
+        if(_player.state==Player.State.FREE&&_player.hovered!=null)
         {
             _interactLabel.text=_player.hovered.GetInteractText(_player);
         }
@@ -34,7 +38,7 @@ public class PlayerHUD:SingletonBehaviour<PlayerHUD>
         // active interactable.
         _interactProgressImage.enabled=false;
 
-        if(_player.active!=null)
+        if(_player.state==Player.State.FREE&&_player.active!=null)
         {
             if(_player.active.GetInteractDuration(_player)>0f)
             {
@@ -46,7 +50,7 @@ public class PlayerHUD:SingletonBehaviour<PlayerHUD>
 
         // item.
         _itemLabel.text="";
-        if(_player.HeldItem!=null)
+        if(_player.state==Player.State.FREE&&_player.HeldItem!=null)
         {
             _itemLabel.text=_player.HeldItem?.Title;
         }
@@ -61,5 +65,15 @@ public class PlayerHUD:SingletonBehaviour<PlayerHUD>
     public void ShowTipEarned()
     {
         tipEarnedTimer=1f;
+    }
+    public void ShowDialog(string text)
+    {
+        dialogContainer.SetActive(true);
+        dialogLabel.text=text;
+    }
+    public void HideDialog()
+    {
+        dialogContainer.SetActive(false);
+        dialogLabel.text="";
     }
 }
