@@ -152,3 +152,14 @@ public class Customer:Interactable
         return true;
     }
 }
+
+
+public class Table:MonoBehaviour
+{
+}
+
+public class TableManager:SingletonBehaviour<TableManager>
+{
+}
+
+
